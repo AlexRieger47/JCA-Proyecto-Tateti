@@ -15,11 +15,11 @@ class TicTacToe {
         ];
 
         this.sounds = {
-            zoomIn: new Audio('./assets/mp3/CellZoomIn.mp3'),
-            zoomOut: new Audio('./assets/mp3/CellZoomOut.mp3'),
-            press: new Audio('./assets/mp3/CellPress.mp3'),
-            newReset: new Audio('./assets/mp3/NewRstButton.mp3'),
-            gameWin: new Audio('./assets/mp3/GameWin.mp3')
+            zoomIn: new Audio('./JCA-Proyecto-Tateti/assets/mp3/CellZoomIn.mp3'),
+            zoomOut: new Audio('./JCA-Proyecto-Tateti/assets/mp3/CellZoomOut.mp3'),
+            press: new Audio('./JCA-Proyecto-Tateti/assets/mp3/CellPress.mp3'),
+            newReset: new Audio('./JCA-Proyecto-Tateti/assets/mp3/NewRstButton.mp3'),
+            gameWin: new Audio('./JCA-Proyecto-Tateti/assets/mp3/GameWin.mp3')
         };
         
         // Flag para saber si el audio está habilitado
