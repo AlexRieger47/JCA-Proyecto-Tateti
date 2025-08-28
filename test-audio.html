@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Audio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Sonidos del Tateti</h1>
+    <div class="status" id="status">Haz click en cualquier botón para habilitar el audio</div>
+    
+    <button class="test-button" onclick="testSound('zoomIn')">Test CellZoomIn.mp3</button>
+    <button class="test-button" onclick="testSound('zoomOut')">Test CellZoomOut.mp3</button>
+    <button class="test-button" onclick="testSound('press')">Test CellPress.mp3</button>
+    <button class="test-button" onclick="testSound('newReset')">Test NewRstButton.mp3</button>
+    
+    <script>
+        const sounds = {
+            zoomIn: new Audio('./assets/mp3/CellZoomIn.mp3'),
+            zoomOut: new Audio('./assets/mp3/CellZoomOut.mp3'),
+            press: new Audio('./assets/mp3/CellPress.mp3'),
+            newReset: new Audio('./assets/mp3/NewRstButton.mp3')
+        };
+        
+        let audioEnabled = false;
+        const statusDiv = document.getElementById('status');
+        
+        // Precargar sonidos
+        Object.values(sounds).forEach(audio => {
+            audio.preload = 'auto';
+            audio.volume = 0.7;
+        });
+        
+        function enableAudio() {
+            if (!audioEnabled) {
+                Object.values(sounds).forEach(audio => {
+                    audio.play().then(() => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }).catch(() => {});
+                });
+                audioEnabled = true;
+                statusDiv.textContent = 'Audio habilitado! Ahora puedes probar los sonidos.';
+                statusDiv.style.background = '#d4edda';
+                statusDiv.style.borderColor = '#28a745';
+            }
+        }
+        
+        function testSound(soundName) {
+            enableAudio();
+            
+            if (sounds[soundName] && audioEnabled) {
+                try {
+                    sounds[soundName].currentTime = 0;
+                    const playPromise = sounds[soundName].play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            statusDiv.textContent = `Reproduciendo: ${soundName}`;
+                        }).catch(error => {
+                            statusDiv.textContent = `Error al reproducir ${soundName}: ${error.message}`;
+                            statusDiv.style.background = '#f8d7da';
+                            statusDiv.style.borderColor = '#dc3545';
+                        });
+                    }
+                } catch (error) {
+                    statusDiv.textContent = `Error: ${error.message}`;
+                    statusDiv.style.background = '#f8d7da';
+                    statusDiv.style.borderColor = '#dc3545';
+                }
+            }
+        }
+        
+        // Habilitar audio en primera interacción
+        document.addEventListener('click', enableAudio, { once: true });
+    </script>
+</body>
+</html>
